@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Application.Services.Repositories;
+﻿using Application.Services.Repositories;
 using Core.CrossCuttingConcerns.Exceptions;
 using Core.Persistence.Paging;
 using Domain.Entities;
@@ -29,9 +24,10 @@ namespace Application.Features.ProgrammingLanguages.Rules
             }
         }
 
-        public void CheckDataNull(ProgrammingLanguage programmingLanguage)
+        public async Task CheckDataNull(int id)
         {
-            if (programmingLanguage == null) throw new BusinessException("Böyle bir veri bulunmamaktadır");
+            ProgrammingLanguage? result = await _programmingLanguageRepository.GetAsync(p => p.Id == id);
+            if (result == null) throw new BusinessException("Böyle bir veri bulunmamaktadır");
         }
     }
 }

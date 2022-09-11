@@ -7,12 +7,13 @@ using Application.Features.ProgrammingLanguages.Dtos;
 using Application.Features.ProgrammingLanguages.Rules;
 using Application.Services.Repositories;
 using AutoMapper;
+using Core.Application.Pipelines.Authorization;
 using Domain.Entities;
 using MediatR;
 
 namespace Application.Features.ProgrammingLanguages.Commands.DeleteProgrammingLanguage
 {
-    public class DeleteProgrammingLanguageCommand : IRequest<DeleteProgrammingLanguageDto>
+    public class DeleteProgrammingLanguageCommand : IRequest<DeleteProgrammingLanguageDto>, ISecuredRequest
     {
         public int Id { get; set; }
 
@@ -20,11 +21,13 @@ namespace Application.Features.ProgrammingLanguages.Commands.DeleteProgrammingLa
         {
             private readonly IProgrammingLanguageRepository _programmingLanguageRepository;
             private readonly IMapper _mapper;
+            private readonly ProgrammingLanguageBusinessRules _programmingLanguageBusinessRules;
 
-            public DeleteProgrammingLanguageHandler(IProgrammingLanguageRepository programmingLanguageRepository, IMapper mapper)
+            public DeleteProgrammingLanguageHandler(IProgrammingLanguageRepository programmingLanguageRepository, IMapper mapper, ProgrammingLanguageBusinessRules programmingLanguageBusinessRules)
             {
                 _programmingLanguageRepository = programmingLanguageRepository;
                 _mapper = mapper;
+                _programmingLanguageBusinessRules = programmingLanguageBusinessRules;
             }
 
             public async Task<DeleteProgrammingLanguageDto> Handle(DeleteProgrammingLanguageCommand request, CancellationToken cancellationToken)
@@ -35,5 +38,7 @@ namespace Application.Features.ProgrammingLanguages.Commands.DeleteProgrammingLa
                 return deleteProgrammingLanguageDto;
             }
         }
+
+        public string[] Roles { get; } = { "Admin" };
     }
 }

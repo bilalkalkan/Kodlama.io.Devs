@@ -6,13 +6,20 @@ using System.Threading.Tasks;
 using Application.Features.ProgrammingLanguages.Dtos;
 using Application.Services.Repositories;
 using AutoMapper;
+using Core.Application.Pipelines.Authorization;
 using Domain.Entities;
 using MediatR;
 
 namespace Application.Features.ProgrammingLanguages.Commands.UpdateProgrammingLanguage
 {
-    public class UpdateProgrammingLanguageCommand : IRequest<UpdateProgrammingLanguageDto>
+    public class UpdateProgrammingLanguageCommand : IRequest<UpdateProgrammingLanguageDto>, ISecuredRequest
     {
+        public UpdateProgrammingLanguageCommand(int id, string name)
+        {
+            Id = id;
+            Name = name;
+        }
+
         public int Id { get; set; }
         public string Name { get; set; }
 
@@ -35,5 +42,7 @@ namespace Application.Features.ProgrammingLanguages.Commands.UpdateProgrammingLa
                 return updateProgrammingLanguageDto;
             }
         }
+
+        public string[] Roles { get; } = { "Admin" };
     }
 }

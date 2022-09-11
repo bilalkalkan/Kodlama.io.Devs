@@ -2,13 +2,19 @@
 using Application.Features.ProgrammingLanguages.Rules;
 using Application.Services.Repositories;
 using AutoMapper;
+using Core.Application.Pipelines.Authorization;
 using Domain.Entities;
 using MediatR;
 
 namespace Application.Features.ProgrammingLanguages.Commands.CreateProgrammingLanguage
 {
-    public class CreateProgrammingLanguageCommand : IRequest<CreateProgrammingLanguageDto>
+    public class CreateProgrammingLanguageCommand : IRequest<CreateProgrammingLanguageDto>, ISecuredRequest
     {
+        public CreateProgrammingLanguageCommand(string name)
+        {
+            Name = name;
+        }
+
         public string Name { get; set; }
 
         public class CreateProgrammingLanguageHandler : IRequestHandler<CreateProgrammingLanguageCommand, CreateProgrammingLanguageDto>
@@ -17,7 +23,8 @@ namespace Application.Features.ProgrammingLanguages.Commands.CreateProgrammingLa
             private readonly IMapper _mapper;
             private readonly ProgrammingLanguageBusinessRules _programmingLanguageBusinessRules;
 
-            public CreateProgrammingLanguageHandler(IProgrammingLanguageRepository programmingLanguageRepository, IMapper mapper, ProgrammingLanguageBusinessRules programmingLanguageBusinessRules)
+            public CreateProgrammingLanguageHandler(IProgrammingLanguageRepository programmingLanguageRepository,
+                IMapper mapper, ProgrammingLanguageBusinessRules programmingLanguageBusinessRules)
             {
                 _programmingLanguageRepository = programmingLanguageRepository;
                 _mapper = mapper;
@@ -34,5 +41,7 @@ namespace Application.Features.ProgrammingLanguages.Commands.CreateProgrammingLa
                 return createProgrammingLanguageDto;
             }
         }
+
+        public string[] Roles { get; } = { "Admin" };
     }
 }

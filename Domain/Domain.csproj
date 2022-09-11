@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\OneDrive\Desktop\nArchitecture-master\src\corePackages\Core.Persistence\Core.Persistence.csproj" />
+    <ProjectReference Include="..\..\..\..\OneDrive\Desktop\nArchitecture-master\src\corePackages\Core.Security\Core.Security.csproj" />
   </ItemGroup>
 
 </Project>
