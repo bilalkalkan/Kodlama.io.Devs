@@ -27,9 +27,13 @@ namespace Application.Features.Githubs.Profiles
             CreateMap<Github, UpdateGithubDto>().ReverseMap();
             CreateMap<Github, UpdateGithubCommand>().ReverseMap();
             CreateMap<IPaginate<Github>, GithubListModel>().ReverseMap();
-            CreateMap<Github, GithubListDto>().ForMember(g => g.UserFullName, opt => opt.MapFrom(g => g.User.FirstName + " " + g.User.LastName)).ReverseMap();
+            CreateMap<Github, GithubListDto>().ForMember(g => g.UserFullName,
+                opt => opt.MapFrom(g => g.User.FirstName + " " + g.User.LastName))
+                .ReverseMap();
 
-            CreateMap<Github, GetByIdGithubDto>().ReverseMap();
+            CreateMap<Github, GetByIdGithubDto>().ForMember(g => g.UserFullName,
+                    opt => opt.MapFrom(g => g.User.FirstName + " " + g.User.LastName))
+                .ReverseMap();
             CreateMap<Github, GetByIdGithubQuery>().ReverseMap();
         }
     }

@@ -8,6 +8,5 @@ namespace Application.Services.Repositories
 {
     public interface IGithubRepository : IAsyncRepository<Github>, IRepository<Github>
     {
-        Task<GetByIdGithubDto?> GetByIdFramework(Expression<Func<GetByIdGithubDto, bool>> predicate);
     }
 }

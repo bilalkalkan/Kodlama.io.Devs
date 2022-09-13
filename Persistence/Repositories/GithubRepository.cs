@@ -18,19 +18,5 @@ namespace Persistence.Repositories
         public GithubRepository(BaseDbContext context) : base(context)
         {
         }
-
-        public async Task<GetByIdGithubDto?> GetByIdFramework(Expression<Func<GetByIdGithubDto, bool>> predicate)
-        {
-            var result = from github in Context.Githubs
-                         join user in Context.Users on github.UserId equals user.Id
-                         select new GetByIdGithubDto
-                         {
-                             Id = github.Id,
-                             UserId = user.Id,
-                             UserFullName = user.FirstName + " " + user.LastName,
-                             GithubUrl = github.GithubUrl,
-                         };
-            return result.FirstOrDefault(predicate);
-        }
     }
 }

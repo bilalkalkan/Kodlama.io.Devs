@@ -12,6 +12,5 @@ namespace Application.Services.Repositories
 {
     public interface IFrameworkRepository : IAsyncRepository<Framework>, IRepository<Framework>
     {
-        Task<GetByIdFrameworkDto?> GetByIdFramework(Expression<Func<GetByIdFrameworkDto, bool>> predicate);
     }
 }

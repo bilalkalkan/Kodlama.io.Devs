@@ -4,6 +4,7 @@ using Application.Services.Repositories;
 using AutoMapper;
 using Domain.Entities;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace Application.Features.Frameworks.Queries.GetByIdFramework
 {
@@ -26,10 +27,9 @@ namespace Application.Features.Frameworks.Queries.GetByIdFramework
 
             public async Task<GetByIdFrameworkDto> Handle(GetByIdFrameworkQuery request, CancellationToken cancellationToken)
             {
-                Framework? framework = _mapper.Map<Framework>(request);
                 await _businessRules.CheckForFrameworkWithId(request.Id);
-                GetByIdFrameworkDto? frameworkDto =
-                    await _frameworkRepository.GetByIdFramework(f => f.Id == framework.Id);
+                Framework? framework = await _frameworkRepository.GetAsync(f => f.Id == request.Id, include: i => i.Include(x => x.ProgrammingLanguage));
+                GetByIdFrameworkDto? frameworkDto = _mapper.Map<GetByIdFrameworkDto>(framework);
                 return frameworkDto;
             }
         }

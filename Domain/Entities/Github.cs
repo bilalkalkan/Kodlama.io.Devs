@@ -18,9 +18,10 @@ namespace Domain.Entities
         {
         }
 
-        public Github(int id, string githubUrl)
+        public Github(int id, int userId, string githubUrl)
         {
             Id = id;
+            UserId = userId;
             GithubUrl = githubUrl;
         }
     }
